@@ -4,8 +4,9 @@ pragma solidity ^0.8.9;
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
 
-contract Tester {
+contract Liquidator {
     function test() public pure returns (uint) {
         return 1;
     }
 }
+

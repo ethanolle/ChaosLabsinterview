@@ -23,3 +23,9 @@ And I didn't mannaged to finish all the project.
 Through my research and analysis, I have gained a deeper understanding of the connection between Chainlink and Aave contracts and how they interact with each other.
 
 
+You can see all my researchs about the transmit function in the folder/fail
+
+## Interesting points.
+You can know the future price directly in the memPool before the tx is submitted.
+So you as a riskManagement/riskTesting platform could take the information from the memPool and take actions in frontRunning the chainlink tx's in order to make safer aave defi system for example(since you take action before it is actually validated).
+

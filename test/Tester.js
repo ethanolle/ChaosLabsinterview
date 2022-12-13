@@ -33,7 +33,8 @@ describe('Challenge ChaosLabs', function () {
 
   after(async function () {
     /** SUCCESS CONDITIONS */
-    // All ETH has been drained from the receiver
+    const account = await getTestAccount(poolContract);
+    expect(account.healthFactor.gt(ethers.utils.parseEther('1'))).to.be.true;
   });
 });
 

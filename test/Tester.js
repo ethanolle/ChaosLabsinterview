@@ -4,7 +4,6 @@ const poolAbi = require('../abi/lendingPool.json');
 const poolContractAddress = '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9';
 const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545');
 
-const AggregatorV3Interface = require('@chainlink/contracts/abi/v0.6/AggregatorV3Interface.json');
 describe('Challenge ChaosLabs', function () {
   let deployer;
 
@@ -15,10 +14,22 @@ describe('Challenge ChaosLabs', function () {
       poolAbi,
       provider,
     );
-
-    await printATestAccount(poolContract);
+    const liquidator = await ethers.getContractFactory('Liquidator', deployer);
+    this.liquidator = await liquidator.deploy();
   });
-  it('Exploit', async function () {});
+  it('During', async function () {
+    const account = await getTestAccount(poolContract);
+    const isHealthy = account.healthFactor.gt(ethers.utils.parseEther('1'));
+    if (!isHealthy) {
+      const tx = await this.liquidator
+        .liquidate
+        // address debtAddress,
+        // address colAddress,
+        // address victim
+        ();
+      await tx.wait();
+    }
+  });
 
   after(async function () {
     /** SUCCESS CONDITIONS */
@@ -26,18 +37,9 @@ describe('Challenge ChaosLabs', function () {
   });
 });
 
-async function printATestAccount(poolContract) {
+async function getTestAccount(poolContract) {
   const userData = await poolContract.getUserAccountData(
     '0xBcCfF07Ab274DC2Da07055CED983eFd87323D30A',
   );
-  console.log(userData);
-  console.log('totalCollateralETH', userData.totalCollateralETH.toString());
-  console.log('totalDebtETH', userData.totalDebtETH.toString());
-  console.log('availableBorrowsETH', userData.availableBorrowsETH.toString());
-  console.log(
-    'currentLiquidationThreshold',
-    userData.currentLiquidationThreshold.toString(),
-  );
-  console.log('ltv', userData.ltv.toString());
-  console.log('healthFactor', userData.healthFactor.toString());
+  return userData;
 }
